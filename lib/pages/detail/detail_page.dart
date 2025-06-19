@@ -34,7 +34,7 @@ class DetailPage extends StatelessWidget {
           children: [
             Hero(
               tag: 'itemImage-${item.id}', // Unique tag for Hero animation
-              child: Image.network(
+              child: Image.asset(
                 item.imageUrl,
                 height: 300,
                 fit: BoxFit.cover,

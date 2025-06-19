@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:multi_page_app/pages/home/home_page.dart';
 import 'package:multi_page_app/pages/profile/profile_page.dart';
-import 'package:multi_page_app/services/auth_service.dart'; // Untuk logout
-import 'package:multi_page_app/pages/auth/login_page.dart'; // Untuk redirect setelah logout
+// import 'package:multi_page_app/services/auth_service.dart'; // Untuk logout
+// import 'package:multi_page_app/pages/auth/login_page.dart'; // Untuk redirect setelah logout
 import 'package:multi_page_app/utils/app_colors.dart'; // Untuk warna bottom nav
 
 class MainWrapper extends StatefulWidget {

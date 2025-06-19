@@ -1,6 +1,7 @@
 // lib/pages/auth/register_page.dart
 import 'package:flutter/material.dart';
-import 'package:multi_page_app/pages/home/home_page.dart'; // Setelah register, mungkin langsung ke home
+// import 'package:multi_page_app/pages/home/home_page.dart'; // Setelah register, mungkin langsung ke home
+import 'package:multi_page_app/pages/main_wrapper.dart';
 import 'package:multi_page_app/services/auth_service.dart'; // Akan diperluas untuk register
 import 'package:multi_page_app/utils/app_colors.dart';
 import 'package:multi_page_app/utils/app_styles.dart';
@@ -59,9 +60,10 @@ class _RegisterPageState extends State<RegisterPage> {
           backgroundColor: AppColors.success,
         ),
       );
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomePage()), // Arahkan ke Home
-      );
+      Navigator.of(context).pushAndRemoveUntil(
+  MaterialPageRoute(builder: (context) => const MainWrapper()), // Arahkan ke MainWrapper
+  (Route<dynamic> route) => false, // Hapus semua rute sebelumnya
+);
     } else {
       setState(() {
         _errorMessage = 'Registration failed. Please try again.'; // Atau pesan error spesifik dari backend

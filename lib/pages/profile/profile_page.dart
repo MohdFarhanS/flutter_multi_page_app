@@ -4,6 +4,8 @@ import 'package:multi_page_app/services/auth_service.dart';
 import 'package:multi_page_app/utils/app_colors.dart';
 import 'package:multi_page_app/utils/app_styles.dart';
 import 'package:multi_page_app/widgets/custom_button.dart';
+import 'package:multi_page_app/pages/profile/edit_profile_page.dart'; // Import halaman edit profil
+import 'package:multi_page_app/pages/profile/change_password_page.dart'; // Import halaman ganti password
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -23,15 +25,17 @@ class _ProfilePageState extends State<ProfilePage> {
     _loadUserProfile();
   }
 
+  // Metode untuk memuat data profil
   Future<void> _loadUserProfile() async {
+    String? currentUsername = await _authService.getCurrentUsername();
     Map<String, dynamic>? user = await _authService.getCurrentUser();
-    if (user != null) {
+
+    if (currentUsername != null) {
       setState(() {
-        _username = user['username'] ?? 'N/A'; // Mengambil username dari SharedPreferences
-        _email = user['email'] ?? 'N/A';
+        _username = currentUsername;
+        _email = user?['email'] ?? 'N/A';
       });
     } else {
-      // Handle case where user data is not found or not logged in
       setState(() {
         _username = 'Guest';
         _email = 'Not Logged In';
@@ -108,11 +112,13 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 40),
               CustomButton(
                 text: 'Edit Profile',
-                onPressed: () {
-                  // TODO: Implement edit profile logic (new page)
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Edit Profile feature coming soon!')),
+                onPressed: () async {
+                  final bool? result = await Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const EditProfilePage()),
                   );
+                  if (result == true) {
+                    _loadUserProfile();
+                  }
                 },
                 backgroundColor: AppColors.accentColor,
                 textColor: AppColors.white,
@@ -120,11 +126,17 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 15),
               CustomButton(
                 text: 'Change Password',
-                onPressed: () {
-                  // TODO: Implement change password logic (new page)
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Change Password feature coming soon!')),
+                onPressed: () async {
+                  // Navigasi ke halaman ChangePasswordPage dan tunggu hasilnya
+                  final bool? result = await Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const ChangePasswordPage()),
                   );
+                  // Jika kembali dengan hasil 'true', Anda bisa memberikan feedback ke pengguna
+                  if (result == true) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Password changed successfully!')),
+                    );
+                  }
                 },
                 backgroundColor: Colors.grey, // Warna berbeda untuk tombol sekunder
                 textColor: AppColors.white,

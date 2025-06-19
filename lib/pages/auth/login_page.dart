@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:multi_page_app/pages/auth/register_page.dart';
-import 'package:multi_page_app/pages/home/home_page.dart';
+// import 'package:multi_page_app/pages/home/home_page.dart';
+import 'package:multi_page_app/pages/main_wrapper.dart';
 import 'package:multi_page_app/services/auth_service.dart';
 import 'package:multi_page_app/utils/app_colors.dart';
 import 'package:multi_page_app/utils/app_styles.dart';
@@ -40,9 +41,10 @@ class _LoginPageState extends State<LoginPage> {
 
     if (success) {
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
+      Navigator.of(context).pushAndRemoveUntil(
+  MaterialPageRoute(builder: (context) => const MainWrapper()), // Arahkan ke MainWrapper
+  (Route<dynamic> route) => false, // Hapus semua rute sebelumnya
+);
     } else {
       setState(() {
         _errorMessage = 'Invalid username or password.';
