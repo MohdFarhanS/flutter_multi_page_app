@@ -1,9 +1,8 @@
-// ignore_for_file: deprecated_member_use
-
+// lib/pages/auth/login_page.dart
 import 'package:flutter/material.dart';
 import 'package:multi_page_app/pages/auth/register_page.dart';
-// import 'package:multi_page_app/pages/home/home_page.dart';
-import 'package:multi_page_app/pages/main_wrapper.dart';
+import 'package:multi_page_app/pages/auth/forgot_password_page.dart'; // Import halaman forgot password
+import 'package:multi_page_app/pages/main_wrapper.dart'; // Perbaikan navigasi sebelumnya
 import 'package:multi_page_app/services/auth_service.dart';
 import 'package:multi_page_app/utils/app_colors.dart';
 import 'package:multi_page_app/utils/app_styles.dart';
@@ -41,10 +40,10 @@ class _LoginPageState extends State<LoginPage> {
 
     if (success) {
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pushAndRemoveUntil(
-  MaterialPageRoute(builder: (context) => const MainWrapper()), // Arahkan ke MainWrapper
-  (Route<dynamic> route) => false, // Hapus semua rute sebelumnya
-);
+      Navigator.of(context).pushAndRemoveUntil( // Perbaikan navigasi: Arahkan ke MainWrapper
+        MaterialPageRoute(builder: (context) => const MainWrapper()),
+        (Route<dynamic> route) => false,
+      );
     } else {
       setState(() {
         _errorMessage = 'Invalid username or password.';
@@ -110,19 +109,21 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
-                  // TODO: Implement forgot password logic
+                  // Navigasi ke halaman forgot password
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
+                  );
                 },
                 child: Text(
                   'Forgot Password?',
                   style: AppStyles.bodyText2.copyWith(color: AppColors.primaryColor),
                 ),
               ),
-              const SizedBox(height: 10), // Tambahkan jarak
+              const SizedBox(height: 10),
               TextButton(
                 onPressed: () {
-                  // Navigasi ke halaman registrasi
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const RegisterPage()), // Perlu membuat RegisterPage
+                    MaterialPageRoute(builder: (context) => const RegisterPage()),
                   );
                 },
                 child: RichText(
@@ -133,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                       TextSpan(
                         text: 'Register Now',
                         style: AppStyles.bodyText2.copyWith(
-                          color: AppColors.accentColor, // Warna menarik untuk link
+                          color: AppColors.accentColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

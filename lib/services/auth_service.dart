@@ -162,4 +162,32 @@ class AuthService {
     await prefs.setString(_registeredUsersKey, json.encode(registeredUsers));
     return true;
   }
+
+  Future<bool> resetPasswordWithDefault(String usernameToReset) async {
+    await Future.delayed(const Duration(seconds: 2)); // Simulasi delay
+
+    final prefs = await SharedPreferences.getInstance();
+    String? registeredUsersJson = prefs.getString(_registeredUsersKey);
+    Map<String, dynamic> registeredUsers = registeredUsersJson != null
+        ? json.decode(registeredUsersJson)
+        : {};
+
+    // Cek apakah username ditemukan
+    if (registeredUsers.containsKey(usernameToReset)) {
+      // Dapatkan data user
+      Map<String, dynamic> userData = registeredUsers[usernameToReset];
+
+      // Set password ke '123456'
+      userData['password'] = '123456';
+
+      // Simpan kembali data user yang sudah diperbarui
+      registeredUsers[usernameToReset] = userData;
+      await prefs.setString(_registeredUsersKey, json.encode(registeredUsers));
+
+      return true; // Username ditemukan dan password berhasil direset
+    }
+
+    // Jika username tidak ditemukan
+    return false;
+  }
 }
